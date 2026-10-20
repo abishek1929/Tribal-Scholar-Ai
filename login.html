@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#103249">
+  <meta name="description" content="Sign in to TribalScholar AI to discover scholarships, check eligibility and track applications.">
+
+  <title>Login | TribalScholar AI</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./style.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+    }
+
+    #root {
+      min-height: 100vh;
+      animation: pageEnter 0.45s ease-out;
+    }
+
+    @keyframes pageEnter {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .initial-loader {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 18px;
+      background: #f5f8fb;
+    }
+
+    .loader-logo {
+      width: 64px;
+      height: 64px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #103249, #0d9488);
+      color: #ffffff;
+      font-size: 32px;
+      box-shadow: 0 12px 30px rgba(16, 50, 73, 0.16);
+      animation: logoFloat 2s ease-in-out infinite;
+    }
+
+    .loader-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #103249;
+      letter-spacing: -0.5px;
+    }
+
+    .loader-title span {
+      color: #0d9488;
+    }
+
+    .loader-bar {
+      width: 160px;
+      height: 4px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #dce7ed;
+    }
+
+    .loader-bar::after {
+      content: "";
+      display: block;
+      width: 45%;
+      height: 100%;
+      border-radius: 10px;
+      background: #0d9488;
+      animation: loading 1.3s ease-in-out infinite;
+    }
+
+    @keyframes loading {
+      from {
+        transform: translateX(-100%);
+      }
+
+      to {
+        transform: translateX(330%);
+      }
+    }
+
+    @keyframes logoFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .loader-logo {
+        width: 56px;
+        height: 56px;
+        font-size: 28px;
+      }
+
+      .loader-title {
+        font-size: 20px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+
+<body data-page="login">
+
+  <div id="root">
+    <div class="initial-loader" role="status" aria-live="polite">
+
+      <div class="loader-logo">✦</div>
+
+      <div class="loader-title">
+        TribalScholar <span>AI</span>
+      </div>
+
+      <div class="loader-bar"></div>
+
+    </div>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+
+</body>
+</html>

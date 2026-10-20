@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#103249">
+
+  <title>TribalScholar AI | Welcome</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Inter", sans-serif;
+      background: #f5f8fb;
+    }
+
+    .welcome {
+      text-align: center;
+      padding: 30px;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .logo {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #103249, #0d9488);
+      color: white;
+      font-size: 36px;
+      box-shadow: 0 15px 35px rgba(16, 50, 73, 0.18);
+      animation: float 2s ease-in-out infinite;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: #103249;
+    }
+
+    h1 span {
+      color: #0d9488;
+    }
+
+    p {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #64748b;
+    }
+
+    .loading-bar {
+      width: 180px;
+      height: 5px;
+      margin: 28px auto 0;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #dce7ed;
+    }
+
+    .loading-bar::after {
+      content: "";
+      display: block;
+      width: 40%;
+      height: 100%;
+      border-radius: 10px;
+      background: #0d9488;
+      animation: loading 1.2s ease-in-out infinite;
+    }
+
+    .fallback {
+      display: inline-block;
+      margin-top: 24px;
+      font-size: 13px;
+      color: #0d9488;
+      text-decoration: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes loading {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(350%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="welcome">
+    <div class="logo">✦</div>
+
+    <h1>TribalScholar <span>AI</span></h1>
+
+    <p>Empowering Education Through Opportunity</p>
+    <p>Preparing your scholarship experience...</p>
+
+    <div class="loading-bar"></div>
+
+    <a href="login.html" class="fallback">
+      Continue to Login →
+    </a>
+  </main>
+
+  <script>
+    setTimeout(() => {
+      window.location.replace("login.html");
+    }, 1800);
+  </script>
+</body>
+</html>

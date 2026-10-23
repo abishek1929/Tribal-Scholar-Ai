@@ -216,9 +216,26 @@ function authView() {
             <input type="email" name="email" autocomplete="email" required>
           </label>
 
-          <label class="field">Password
-            <input type="password" name="password" minlength="6" required>
-          </label>
+<label class="field">Password
+  <div style="position:relative;width:100%">
+    <input
+      type="password"
+      name="password"
+      id="auth-password"
+      minlength="6"
+      autocomplete="${register ? "new-password" : "current-password"}"
+      style="width:100%;padding-right:48px"
+      required
+    >
+    <button
+      type="button"
+      id="toggle-password"
+      aria-label="Show password"
+      aria-pressed="false"
+      style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:transparent;border:none;cursor:pointer;font-size:19px;color:inherit;padding:5px"
+    >👁</button>
+  </div>
+</label>
 
           <button class="btn" type="submit">
             ${register ? "Create Account →" : "Sign In →"}

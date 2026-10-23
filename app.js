@@ -7,12 +7,12 @@ const real = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY &&
 
 const db = real
   ? (await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm"))
-      .createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    .createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
   : null;
 
 const $ = s => document.querySelector(s);
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c =>
-  ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" })[c]
+  ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]
 );
 
 const page = document.body.dataset.page || "login";
@@ -27,9 +27,9 @@ const get = (k, fallback) => {
 const put = (k, v) => localStorage.setItem("ts_" + k, JSON.stringify(v));
 
 const seed = [
-  { id:1, title:"Undergraduate Education Support", description:"Example undergraduate scholarship.", eligibility:"Undergraduate students", deadline:"2027-06-30", status:"open" },
-  { id:2, title:"Research Excellence Fellowship", description:"Example research scholarship.", eligibility:"Research students", deadline:"2027-08-20", status:"open" },
-  { id:3, title:"Higher Secondary Achievement Grant", description:"Example school scholarship.", eligibility:"School students", deadline:"2027-04-15", status:"open" }
+  { id: 1, title: "Undergraduate Education Support", description: "Example undergraduate scholarship.", eligibility: "Undergraduate students", deadline: "2027-06-30", status: "open" },
+  { id: 2, title: "Research Excellence Fellowship", description: "Example research scholarship.", eligibility: "Research students", deadline: "2027-08-20", status: "open" },
+  { id: 3, title: "Higher Secondary Achievement Grant", description: "Example school scholarship.", eligibility: "School students", deadline: "2027-04-15", status: "open" }
 ];
 
 if (!real && !localStorage.getItem("ts_scholarships")) {
@@ -64,12 +64,12 @@ async function authUser() {
       role: "student"
     };
 
-    return { id:data.user.id, email:data.user.email };
+    return { id: data.user.id, email: data.user.email };
   }
 
   const session = get("session", null);
   profile = session
-    ? { full_name:session.name, role:session.role }
+    ? { full_name: session.name, role: session.role }
     : null;
 
   return session;
@@ -78,9 +78,9 @@ async function authUser() {
 async function refresh() {
   if (real) {
     const [s, a, n] = await Promise.all([
-      db.from("scholarships").select("*").order("created_at", { ascending:false }),
-      db.from("applications").select("*,scholarships(title)").order("created_at", { ascending:false }),
-      db.from("announcements").select("*").order("created_at", { ascending:false })
+      db.from("scholarships").select("*").order("created_at", { ascending: false }),
+      db.from("applications").select("*,scholarships(title)").order("created_at", { ascending: false }),
+      db.from("announcements").select("*").order("created_at", { ascending: false })
     ]);
 
     if (s.error) toast(s.error.message);
@@ -256,30 +256,28 @@ function authView() {
 
           <p class="muted">
             ${register
-              ? 'Already registered? <a href="login.html">Sign in</a>'
-              : 'New here? <a href="register.html">Create account</a>'}
+      ? 'Already registered? <a href="login.html">Sign in</a>'
+      : 'New here? <a href="register.html">Create account</a>'}
           </p>
         </form>
       </section>
     </div>
   `;
 
- <CodeBlock language="javascript" editable>
+
   const passwordInput = $("#auth-password");
   const togglePassword = $("#toggle-password");
 
+  function togg() {
 
-togglePassword.addEventListener("click", () => {
-const visible = passwordInput.type === "password";
+    const visible = passwordInput.type === "password";
 
-passwordInput.type = visible ? "text" : "password";
-togglePassword.textContent = visible ? "🙈" : "👁";
-togglePassword.setAttribute(
-"aria-label",
-visible ? "Hide password" : "Show password"
-);
-});
-</CodeBlock>
+    passwordInput.type = visible ? "text" : "password";
+    togglePassword.textContent = visible ? "🙈" : "👁";
+    togglePassword.setAttribute("aria-label", visible ? "Hide password" : "Show password");
+  }
+
+  togglePassword.addEventListener("click", togg);
 
   $("#authform").onsubmit = async e => {
     e.preventDefault();
@@ -297,7 +295,7 @@ visible ? "Hide password" : "Show password"
         if (register) {
           const { data, error } = await db.auth.signUp({
             email, password,
-            options: { data:{ full_name:name } }
+            options: { data: { full_name: name } }
           });
           if (error) throw error;
           if (!data.session) {
@@ -316,19 +314,19 @@ visible ? "Hide password" : "Show password"
 
         if (register) {
           if (users.some(u => u.email === email)) throw Error("Email already registered");
-          users.push({ id:crypto.randomUUID(), email, password, name, role:"student" });
+          users.push({ id: crypto.randomUUID(), email, password, name, role: "student" });
           put("users", users);
         }
 
         const account = email === "admin@demo.com" && password === "admin123"
-          ? { id:"demo-admin", email, name:"Admin", role:"admin" }
+          ? { id: "demo-admin", email, name: "Admin", role: "admin" }
           : users.find(u => u.email === email && u.password === password);
 
         if (!account) throw Error("Invalid email or password");
 
         put("session", {
-          id:account.id, email:account.email,
-          name:account.name, role:account.role
+          id: account.id, email: account.email,
+          name: account.name, role: account.role
         });
 
         location.href = account.role === "admin" ? "admin.html" : "dashboard.html";
@@ -389,11 +387,11 @@ function dashboard() {
     </div>
 
     ${stats([
-      ["Available Scholarships", scholarships.filter(s => s.status === "open").length, "Open for applications"],
-      ["My Applications", applications.length, "Total submitted"],
-      ["Approved", applications.filter(a => a.status === "approved").length, "Successful applications"],
-      ["Under Review", applications.filter(a => a.status === "under_review").length, "Awaiting decision"]
-    ])}
+    ["Available Scholarships", scholarships.filter(s => s.status === "open").length, "Open for applications"],
+    ["My Applications", applications.length, "Total submitted"],
+    ["Approved", applications.filter(a => a.status === "approved").length, "Successful applications"],
+    ["Under Review", applications.filter(a => a.status === "under_review").length, "Awaiting decision"]
+  ])}
 
     <div class="section-head">
       <h2>Featured Scholarships</h2>
@@ -402,8 +400,8 @@ function dashboard() {
 
     <div class="grid">
       ${scholarships.filter(s => s.status === "open")
-        .slice(0, 3).map(scholarshipCard).join("") ||
-        '<div class="empty">No open scholarships.</div>'}
+      .slice(0, 3).map(scholarshipCard).join("") ||
+    '<div class="empty">No open scholarships.</div>'}
     </div>
 
     <div class="section-head"><h2>Latest Announcements</h2></div>
@@ -540,8 +538,8 @@ async function uploadDocument(file, applicationId, type) {
   const path = `${user.id}/${applicationId}/${type}.${extension}`;
 
   const { error } = await db.storage.from(BUCKET).upload(path, file, {
-    contentType:file.type,
-    upsert:false
+    contentType: file.type,
+    upsert: false
   });
 
   if (error) throw error;
@@ -701,7 +699,7 @@ function apply() {
     $("#submit-application").hidden = current !== 3;
 
     if (current === 3) reviewDetails();
-    window.scrollTo({ top:0, behavior:"smooth" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function checkStep() {
@@ -801,17 +799,17 @@ function apply() {
     button.textContent = "Submitting...";
 
     const payload = {
-      student_id:user.id,
-      scholarship_id:scholarship.id,
-      full_name:String(f.get("full_name")).trim(),
-      date_of_birth:f.get("date_of_birth"),
-      email:String(f.get("email")).trim(),
-      mobile:String(f.get("mobile")).trim(),
-      institution:String(f.get("institution")).trim(),
-      course:String(f.get("course")).trim(),
-      study_year:f.get("study_year"),
-      family_income:Number(f.get("family_income")),
-      statement:String(f.get("statement")).trim()
+      student_id: user.id,
+      scholarship_id: scholarship.id,
+      full_name: String(f.get("full_name")).trim(),
+      date_of_birth: f.get("date_of_birth"),
+      email: String(f.get("email")).trim(),
+      mobile: String(f.get("mobile")).trim(),
+      institution: String(f.get("institution")).trim(),
+      course: String(f.get("course")).trim(),
+      study_year: f.get("study_year"),
+      family_income: Number(f.get("family_income")),
+      statement: String(f.get("statement")).trim()
     };
 
     try {
@@ -843,10 +841,10 @@ function apply() {
             uploaded.push(additionalPath);
           }
 
-          const { error:updateError } = await db.from("applications")
+          const { error: updateError } = await db.from("applications")
             .update({
-              community_document_path:communityPath,
-              additional_document_path:additionalPath
+              community_document_path: communityPath,
+              additional_document_path: additionalPath
             }).eq("id", data.id);
 
           if (updateError) throw updateError;
@@ -857,7 +855,7 @@ function apply() {
             await db.storage.from(BUCKET).remove(uploaded);
           }
 
-          const { error:deleteError } = await db.from("applications")
+          const { error: deleteError } = await db.from("applications")
             .delete().eq("id", data.id);
 
           if (deleteError) {
@@ -871,15 +869,15 @@ function apply() {
         const all = get("applications", []);
 
         all.push({
-          id:Date.now(),
+          id: Date.now(),
           ...payload,
-          community_document_path:null,
-          additional_document_path:null,
-          community_document_name:community.name,
-          additional_document_name:additional?.name || null,
-          status:"submitted",
-          admin_note:"",
-          created_at:new Date().toISOString()
+          community_document_path: null,
+          additional_document_path: null,
+          community_document_name: community.name,
+          additional_document_name: additional?.name || null,
+          status: "submitted",
+          admin_note: "",
+          created_at: new Date().toISOString()
         });
 
         put("applications", all);
@@ -958,7 +956,7 @@ async function callGemini(question) {
 
   try {
     const { data, error } = await Promise.race([
-      db.functions.invoke("quick-action", { body:{ message:question } }),
+      db.functions.invoke("quick-action", { body: { message: question } }),
       timeout
     ]);
 
@@ -1074,11 +1072,11 @@ function admin() {
     </div>
 
     ${stats([
-      ["Total Scholarships", scholarships.length, "All scholarships"],
-      ["Open Scholarships", scholarships.filter(s => s.status === "open").length, "Currently open"],
-      ["Applications", applications.length, "Total applications"],
-      ["Pending Review", applications.filter(a => ["submitted", "under_review"].includes(a.status)).length, "Awaiting review"]
-    ])}
+    ["Total Scholarships", scholarships.length, "All scholarships"],
+    ["Open Scholarships", scholarships.filter(s => s.status === "open").length, "Currently open"],
+    ["Applications", applications.length, "Total applications"],
+    ["Pending Review", applications.filter(a => ["submitted", "under_review"].includes(a.status)).length, "Awaiting review"]
+  ])}
 
     <div class="section-head">
       <h2>Recent Applications</h2>
@@ -1119,7 +1117,7 @@ async function saveScholarship(payload, id = null) {
       if (index < 0) throw Error("Scholarship not found");
       all[index] = { ...all[index], ...payload };
     } else {
-      all.unshift({ id:Date.now(), ...payload });
+      all.unshift({ id: Date.now(), ...payload });
     }
 
     put("scholarships", all);
@@ -1209,10 +1207,10 @@ function manage() {
         form.elements[key].value = s[key] || "";
       }
       $("#formtitle").textContent = "Edit Scholarship";
-      window.scrollTo({ top:0, behavior:"smooth" });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       try {
-        await saveScholarship({ status:s.status === "open" ? "closed" : "open" }, id);
+        await saveScholarship({ status: s.status === "open" ? "closed" : "open" }, id);
         await refresh();
         draw();
         toast("Scholarship updated.");
@@ -1227,11 +1225,11 @@ function manage() {
     const f = new FormData(e.target);
 
     const payload = {
-      title:String(f.get("title")).trim(),
-      description:String(f.get("description")).trim(),
-      eligibility:String(f.get("eligibility")).trim(),
-      deadline:f.get("deadline") || null,
-      status:f.get("status")
+      title: String(f.get("title")).trim(),
+      description: String(f.get("description")).trim(),
+      eligibility: String(f.get("eligibility")).trim(),
+      deadline: f.get("deadline") || null,
+      status: f.get("status")
     };
 
     try {
@@ -1349,7 +1347,7 @@ function review() {
     try {
       if (real) {
         const { error } = await db.from("applications")
-          .update({ status, admin_note, updated_at:new Date().toISOString() })
+          .update({ status, admin_note, updated_at: new Date().toISOString() })
           .eq("id", id);
 
         if (error) throw error;
@@ -1405,8 +1403,8 @@ function announcementPage() {
     e.preventDefault();
     const f = new FormData(e.target);
     const payload = {
-      title:String(f.get("title")).trim(),
-      body:String(f.get("body")).trim()
+      title: String(f.get("title")).trim(),
+      body: String(f.get("body")).trim()
     };
 
     try {
@@ -1415,7 +1413,7 @@ function announcementPage() {
         if (error) throw error;
       } else {
         const all = get("announcements", []);
-        all.unshift({ id:Date.now(), ...payload });
+        all.unshift({ id: Date.now(), ...payload });
         put("announcements", all);
       }
 
@@ -1465,7 +1463,7 @@ async function start() {
   const pages = {
     dashboard, explore, eligibility, apply, track,
     chat, admin, manage, review,
-    announcements:announcementPage
+    announcements: announcementPage
   };
 
   (pages[page] || dashboard)();

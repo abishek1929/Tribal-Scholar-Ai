@@ -266,6 +266,7 @@ function authView() {
     togglePassword.setAttribute("aria-pressed", String(isHidden));
   });
 
+
   $("#authform").onsubmit = async e => {
     e.preventDefault();
 

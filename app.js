@@ -216,26 +216,24 @@ function authView() {
             <input type="email" name="email" autocomplete="email" required>
           </label>
 
-<label class="field">Password
-  <div style="position:relative;width:100%">
-    <input
-      type="password"
-      name="password"
-      id="auth-password"
-      minlength="6"
-      autocomplete="${register ? "new-password" : "current-password"}"
-      style="width:100%;padding-right:48px"
-      required
-    >
-    <button
-      type="button"
-      id="toggle-password"
-      aria-label="Show password"
-      aria-pressed="false"
-      style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:transparent;border:none;cursor:pointer;font-size:19px;color:inherit;padding:5px"
-    >👁</button>
-  </div>
-</label>
+          <label class="field">Password
+            <span style="display:flex;align-items:center;gap:8px;position:relative">
+              <input id="auth-password" type="password" name="password"
+                autocomplete="${register ? "new-password" : "current-password"}"
+                minlength="6" required style="flex:1;min-width:0;padding-right:46px">
+              <button type="button" id="toggle-password" aria-label="Show password"
+                aria-pressed="false" title="Show password"
+                style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:transparent;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:5px;color:inherit">
+                <svg id="password-eye" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                  <path id="eye-slash" d="M3 3 21 21" style="display:none"/>
+                </svg>
+              </button>
+            </span>
+          </label>
 
           <button class="btn" type="submit">
             ${register ? "Create Account →" : "Sign In →"}
@@ -250,22 +248,17 @@ function authView() {
       </section>
     </div>
   `;
-  
-  const passwordInput = $("#auth-password");
-  const togglePassword = $("#toggle-password");
 
-  togglePassword.addEventListener("click", () => {
-    const isHidden = passwordInput.type === "password";
-
-    passwordInput.type = isHidden ? "text" : "password";
-    togglePassword.textContent = isHidden ? "🙈" : "👁";
-    togglePassword.setAttribute(
-      "aria-label",
-      isHidden ? "Hide password" : "Show password"
-    );
-    togglePassword.setAttribute("aria-pressed", String(isHidden));
-  });
-
+  $("#toggle-password").onclick = () => {
+    const input = $("#auth-password");
+    const button = $("#toggle-password");
+    const visible = input.type === "password";
+    input.type = visible ? "text" : "password";
+    button.setAttribute("aria-label", visible ? "Hide password" : "Show password");
+    button.setAttribute("aria-pressed", String(visible));
+    button.title = visible ? "Hide password" : "Show password";
+    $("#eye-slash").style.display = visible ? "block" : "none";
+  };
 
   $("#authform").onsubmit = async e => {
     e.preventDefault();
@@ -274,7 +267,7 @@ function authView() {
     const email = String(f.get("email")).trim().toLowerCase();
     const password = String(f.get("password"));
     const name = String(f.get("name") || "Student").trim();
-    const button = e.target.querySelector("button");
+    const button = e.target.querySelector('button[type="submit"]');
 
     button.disabled = true;
 

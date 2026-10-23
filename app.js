@@ -250,6 +250,21 @@ function authView() {
       </section>
     </div>
   `;
+  
+  const passwordInput = $("#auth-password");
+  const togglePassword = $("#toggle-password");
+
+  togglePassword.addEventListener("click", () => {
+    const isHidden = passwordInput.type === "password";
+
+    passwordInput.type = isHidden ? "text" : "password";
+    togglePassword.textContent = isHidden ? "🙈" : "👁";
+    togglePassword.setAttribute(
+      "aria-label",
+      isHidden ? "Hide password" : "Show password"
+    );
+    togglePassword.setAttribute("aria-pressed", String(isHidden));
+  });
 
   $("#authform").onsubmit = async e => {
     e.preventDefault();
